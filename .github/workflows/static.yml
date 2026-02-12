@@ -1,0 +1,88 @@
+import React, { useState, useEffect } from "react"; import { motion } from "framer-motion"; import { Heart, Lock, Gift } from "lucide-react"; import { Button } from "@/components/ui/button"; import { Card, CardContent } from "@/components/ui/card";
+
+export default function ValentineLoveRoom() { const [entered, setEntered] = useState(false); const [showSurprise, setShowSurprise] = useState(false); const [secretUnlocked, setSecretUnlocked] = useState(false);
+
+useEffect(() => { const handleScroll = () => { if ( window.innerHeight + window.scrollY >= document.body.offsetHeight - 10 ) { setShowSurprise(true); } }; window.addEventListener("scroll", handleScroll); return () => window.removeEventListener("scroll", handleScroll); }, []);
+
+return ( <div className="min-h-screen bg-gradient-to-b from-[#7a1f3d] via-[#f8c8dc] to-[#f5efe6] text-[#4a2c2a] font-sans"> {!entered && ( <div className="h-screen flex flex-col items-center justify-center text-center px-6"> <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="space-y-6" > <Heart className="mx-auto w-12 h-12" /> <h1 className="text-3xl md:text-5xl font-semibold"> Ada sebuah dunia kecil <br /> yang diam-diam kubuat untukmu... </h1> <p className="text-lg opacity-80"> Bukan dunia besar. Cuma ruang sederhana yang isinya kamu. </p> <Button onClick={() => setEntered(true)} className="rounded-2xl px-8 py-6 text-lg" > Masuk Pelan-Pelan 💌 </Button> </motion.div> </div> )}
+
+{entered && (
+    <div className="space-y-24 py-20 px-6 md:px-20">
+      <Section
+        title="Awal Cerita Kita"
+        content={`Aku masih ingat pertama kali kita ngobrol. Rasanya biasa aja... sampai ternyata jadi luar biasa. Dari obrolan random, jadi candaan receh tiap malam. Dari 'kenal' jadi 'nggak bisa nggak ngobrol'. Lucu ya, hal besar kadang mulai dari hal kecil.`}
+      />
+
+      <Section
+        title="Hal-Hal Kecil yang Justru Paling Dirindukan"
+        content={`Cara kamu bilang 'yaudah sih' waktu pura-pura ngambek. Cara kamu ketawa sebelum cerita lucu selesai. Pesan singkat 'udah makan belum?' yang kedengarannya sederhana tapi rasanya hangat banget. Semua itu kecil, tapi entah kenapa selalu jadi rumah.`}
+      />
+
+      <Section
+        title="Hal yang Diam-Diam Aku Suka dari Kamu"
+        content={`Caramu peduli tanpa ribut. Caramu tetap jadi diri sendiri. Caramu bikin aku merasa cukup. Dan jujur aja... aku suka banget cara kamu nyebelin tapi tetap bikin kangen.`}
+      />
+
+      <Section
+        title="Sedikit Humor Biar Nggak Terlalu Haru"
+        content={`Terima kasih sudah sabar menghadapi aku yang kadang sok dewasa tapi panik kalau kamu balasnya lama 5 menit. Terima kasih sudah tetap di sini walau aku kadang ngeselin. Kamu hebat sih, serius.`}
+      />
+
+      {showSurprise && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="text-center"
+        >
+          {!secretUnlocked ? (
+            <Card className="rounded-2xl shadow-xl bg-white/70 backdrop-blur-md">
+              <CardContent className="p-10 space-y-6">
+                <Lock className="mx-auto w-10 h-10" />
+                <h2 className="text-2xl font-semibold">
+                  Ada satu kotak terakhir...
+                </h2>
+                <p>
+                  Tapi cuma bisa dibuka kalau kamu siap baca bagian
+                  paling jujur.
+                </p>
+                <Button
+                  onClick={() => setSecretUnlocked(true)}
+                  className="rounded-2xl px-6 py-5"
+                >
+                  Buka Rahasianya 🎁
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="rounded-2xl shadow-2xl bg-[#7a1f3d] text-white">
+              <CardContent className="p-12 space-y-6">
+                <Gift className="mx-auto w-10 h-10" />
+                <h2 className="text-3xl font-semibold">
+                  Untukmu, Dengan Perasaan Paling Dalam
+                </h2>
+                <p className="text-lg leading-relaxed">
+                  Terima kasih sudah hadir dalam hidupku. Terima kasih
+                  sudah jadi teman cerita, tempat pulang, dan alasan
+                  tersenyum yang sering banget. Aku nggak tahu masa depan
+                  akan seperti apa, tapi kalau boleh berharap, aku ingin
+                  tetap berjalan di sampingmu — pelan-pelan, nggak perlu
+                  sempurna, asal bersama.
+                </p>
+                <p className="text-lg">
+                  Selamat Hari Valentine ❤️
+                  <br />
+                  Dunia kecil ini akan selalu menyimpan cerita kita.
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </motion.div>
+      )}
+    </div>
+  )}
+</div>
+
+); }
+
+function Section({ title, content }) { return ( <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} > <Card className="rounded-2xl shadow-lg bg-white/80 backdrop-blur-md"> <CardContent className="p-10 space-y-4"> <h2 className="text-2xl md:text-3xl font-semibold">{title}</h2> <p className="text-lg leading-relaxed opacity-90">{content}</p> </CardContent> </Card> </motion.div> ); }
